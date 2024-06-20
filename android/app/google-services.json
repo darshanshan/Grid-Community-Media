@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "647099793032",
+    "project_id": "grid-cda8b",
+    "storage_bucket": "grid-cda8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647099793032:android:a6491088c5276b4571a93d",
+        "android_client_info": {
+          "package_name": "com.example.grid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjZVAGIhGlVR5gZZx4LAzAeVwA-Gb9mC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
