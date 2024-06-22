@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grid/core/widgets/appBar/primary_app_bar.dart';
 import 'package:grid/core/widgets/drawer/drawer.dart';
-import 'package:grid/core/widgets/page_components/profile_image.dart';
+
 import 'package:grid/core/widgets/page_components/user_section.dart';
 
 class ChatList extends StatelessWidget {

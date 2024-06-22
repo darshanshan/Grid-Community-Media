@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grid/core/widgets/button/post_action_button.dart';
+
 import 'package:grid/features/post_card/presentation/widgets/post_catagory_card.dart';
 import 'package:grid/features/post_card/presentation/widgets/tag_card.dart';
 import 'package:grid/model/post_model.dart';
@@ -18,7 +19,7 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     //Post Document
     final doc = PostModel.fromMap(document.data() as Map<String, dynamic>);
-    print(doc.postTitle);
+    //print(doc.postTitle);
 
     //ThemeData
     final TextStyle? displaySmall = Theme.of(context).textTheme.displaySmall;

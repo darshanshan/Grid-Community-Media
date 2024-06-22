@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:gap/gap.dart';
-import 'package:grid/core/widgets/page_components/profile_image.dart';
+
 import 'package:grid/core/widgets/page_components/user_section.dart';
 
 class Projectcard extends StatelessWidget {
