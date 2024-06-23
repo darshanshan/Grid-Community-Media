@@ -5,20 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grid/core/widgets/button/post_action_button.dart';
+import 'package:grid/domain/get_user_services.dart';
 
 import 'package:grid/features/post_card/presentation/widgets/post_catagory_card.dart';
 import 'package:grid/features/post_card/presentation/widgets/tag_card.dart';
 import 'package:grid/model/post_model.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key, required this.document});
+  const PostCard({super.key, required this.postDocument});
 
-  final DocumentSnapshot document;
+  final DocumentSnapshot postDocument;
 
   @override
   Widget build(BuildContext context) {
     //Post Document
-    final doc = PostModel.fromMap(document.data() as Map<String, dynamic>);
+    final doc = PostModel.fromMap(postDocument.data() as Map<String, dynamic>);
     //print(doc.postTitle);
 
     //ThemeData
@@ -50,71 +51,107 @@ class PostCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        PostCatagoryCard(
-                          buttonColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          catagoryIcon: Icons.newspaper_rounded,
-                          catagoryName: 'Announcement',
-                        ),
-                        PostCatagoryCard(
-                          buttonColor:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          catagoryIcon: Icons.account_balance_wallet,
-                          catagoryName: 'Project',
-                        ),
-                        PostCatagoryCard(
-                          buttonColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          catagoryIcon: Icons.auto_awesome_outlined,
-                          catagoryName: 'Idea',
-                        ),
-                      ],
-                    ),
-                    const Gap(16),
-                    const TagCard(tagLabel: '8/9/2020'),
-                    const Gap(16),
-                    Row(
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              'https://cdn-icons-png.flaticon.com/512/10337/10337609.png',
-                              fit: BoxFit.cover,
-                              height: 35,
-                              width: 35,
-                            )),
-                        const Gap(10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    if ((doc.postType != 'Common Post') &&
+                        (doc.postType != 'Text Post'))
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Row(
                           children: [
-                            Text(
-                              'Darshan',
-                              style: displaySmall,
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                  text: 'a moment ago',
-                                  style: titleSmall,
-                                  children: const [
-                                    TextSpan(text: ' · '),
-                                    TextSpan(text: 'Posted in '),
-                                    TextSpan(text: 'Announcements'),
-                                  ]),
-                            ),
-                            Text(
-                              'just now',
-                              style: titleSmall,
-                            ),
+                            if (doc.postType == 'Announcement')
+                              PostCatagoryCard(
+                                buttonColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                catagoryIcon: Icons.newspaper_rounded,
+                                catagoryName: 'Announcement',
+                              ),
+                            if (doc.postType == 'Project')
+                              PostCatagoryCard(
+                                buttonColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                                catagoryIcon: Icons.account_balance_wallet,
+                                catagoryName: 'Project',
+                              ),
+                            if (doc.postType == 'Idea')
+                              PostCatagoryCard(
+                                buttonColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                catagoryIcon: Icons.auto_awesome_outlined,
+                                catagoryName: 'Idea',
+                              ),
                           ],
                         ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.more_vert),
-                        ),
-                      ],
+                      ),
+                    if (doc.postType == 'Announcement')
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 16),
+                        child: TagCard(tagLabel: '8/9/2020'),
+                      ),
+                    FutureBuilder<DocumentSnapshot>(
+                      future: GetUser().getUserDoc(userID: doc.postUserID),
+                      builder: (context, userSnapshot) {
+                        if (userSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        if (userSnapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${userSnapshot.error}'));
+                        }
+                        if (!userSnapshot.hasData ||
+                            !userSnapshot.data!.exists) {
+                          return const Center(child: Text('User not found'));
+                        }
+                        final postedUser = userSnapshot.data!;
+                        return Row(
+                          children: [
+                            SizedBox(
+                              width: 35,
+                              height: 35,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    'https://cdn-icons-png.flaticon.com/512/10337/10337609.png',
+                                    fit: BoxFit.cover,
+                                    height: 35,
+                                    width: 35,
+                                  )),
+                            ),
+                            const Gap(10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  postedUser['displayName'],
+                                  style: displaySmall,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      text: 'a moment ago',
+                                      style: titleSmall,
+                                      children: const [
+                                        TextSpan(text: ' · '),
+                                        TextSpan(text: 'Posted in '),
+                                        TextSpan(text: 'Announcements'),
+                                      ]),
+                                ),
+                                Text(
+                                  'just now',
+                                  style: titleSmall,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.more_vert),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     const Gap(16),
                     Text(

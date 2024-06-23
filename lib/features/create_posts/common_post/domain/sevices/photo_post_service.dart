@@ -22,6 +22,7 @@ class CreatePhotoCommonPost {
     try {
       String videoDownloadUrl = '';
       List<String> imageDownloadUrl = [];
+      String commonPostType = '';
 
       if (isVideo) {
         try {
@@ -31,6 +32,7 @@ class CreatePhotoCommonPost {
           final uploadVideo = await ref.putFile(videoFile);
           final url = await uploadVideo.ref.getDownloadURL();
           videoDownloadUrl = url;
+          commonPostType = 'video';
         } catch (e) {
           throw Exception(e.toString());
         }
@@ -43,6 +45,7 @@ class CreatePhotoCommonPost {
             final uploadImage = await ref.putFile(file);
             final url = await uploadImage.ref.getDownloadURL();
             imageDownloadUrl.add(url);
+            commonPostType = 'image';
           } catch (e) {
             throw Exception(e.toString());
           }
@@ -50,11 +53,12 @@ class CreatePhotoCommonPost {
       }
 
       final data = PostModel(
-        postType: 'common post',
+        postType: 'Common Post',
         postUserID: userID,
         postedTime: DateTime.now(),
         postTitle: postTitle,
         postDescription: postDescription,
+        commonPostType: commonPostType,
         videoUrl: videoDownloadUrl,
         imageUrls: imageDownloadUrl,
         tags: tags,

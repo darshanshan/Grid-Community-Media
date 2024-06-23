@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grid/domain/get_user_services.dart';
 import 'package:grid/features/post_card/presentation/post_card.dart';
 
 class FeedStream extends StatelessWidget {
@@ -17,11 +18,16 @@ class FeedStream extends StatelessWidget {
             return const CircularProgressIndicator();
           }
           final feedDocs = snapshot.data.docs;
+
           return ListView.builder(
             itemCount: feedDocs.length,
             itemBuilder: (context, index) {
               final postDoc = feedDocs[index];
-              return PostCard(document: postDoc);
+
+              // final filteredDocs = PostModel.fromMap(postDoc);
+              return PostCard(
+                postDocument: postDoc,
+              );
             },
           );
         });

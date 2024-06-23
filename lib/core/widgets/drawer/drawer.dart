@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:grid/features/authentication/domain/services/auth_services.dart';
 import 'package:grid/features/event_page/presentation/event_screen.dart';
 import 'package:grid/features/groups/presentation/groups_list.dart';
 import 'package:grid/features/home/presentation/home_feed_screen.dart';
@@ -255,11 +257,16 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             const Gap(20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                footerText('Terms · Privacy · © Copyright 2023'),
-              ],
+            GestureDetector(
+              onTap: () {
+                AuthServices().signOut();
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  footerText('Terms · Privacy · © Copyright 2023'),
+                ],
+              ),
             ),
           ],
         ),

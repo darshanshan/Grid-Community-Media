@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:grid/features/create_posts/domain/services/create_post_service.dart';
+import 'package:grid/features/create_posts/text_post/services/create_textpost_service.dart';
 import 'package:meta/meta.dart';
 
 part 'text_post_event.dart';

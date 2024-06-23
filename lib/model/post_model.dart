@@ -6,6 +6,7 @@ class PostModel {
   final DateTime? postedTime;
   final String postTitle;
   final String postDescription;
+  final String commonPostType;
   final String videoUrl;
   final List<String> imageUrls;
   final List<String> tags;
@@ -27,6 +28,7 @@ class PostModel {
     required this.postedTime,
     required this.postTitle,
     required this.postDescription,
+    required this.commonPostType,
     required this.videoUrl,
     required this.imageUrls,
     required this.tags,
@@ -52,6 +54,7 @@ class PostModel {
           : null,
       postTitle: map['postTitle'] ?? '',
       postDescription: map['postDescription'] ?? '',
+      commonPostType: map['commonPostType'] ?? '',
       videoUrl: map['videoUrl'] ?? '',
       imageUrls: List<String>.from(map['imageUrls'] ?? []),
       tags: List<String>.from(map['tags'] ?? []),
@@ -73,11 +76,12 @@ class PostModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'postModel': postType,
+      'postType': postType,
       'postUserID': postUserID,
       'postedTime': postedTime,
       'postTitle': postTitle,
       'postDescription': postDescription,
+      'commonPostType': commonPostType,
       'videoUrl': videoUrl,
       'imageUrls': imageUrls,
       'tags': tags,
