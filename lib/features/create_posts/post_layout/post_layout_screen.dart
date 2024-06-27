@@ -13,16 +13,11 @@ class PostLayout extends StatelessWidget {
     //ScaffoldKey
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        drawer: const CustomDrawer(),
-        appBar: AppBarWidget(scaffoldKey: scaffoldKey),
-        body: SingleChildScrollView(child: postScreen),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: const CustomDrawer(),
+      appBar: AppBarWidget(scaffoldKey: scaffoldKey),
+      body: SingleChildScrollView(child: postScreen),
     );
   }
 }

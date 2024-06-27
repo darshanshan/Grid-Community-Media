@@ -4,9 +4,13 @@ import 'package:intl/intl.dart';
 
 class TimePickerWidget extends StatefulWidget {
   const TimePickerWidget(
-      {super.key, required this.errorLabel, required this.hintText});
+      {super.key,
+      required this.errorLabel,
+      required this.hintText,
+      required this.onChanged});
   final String hintText;
   final String errorLabel;
+  final Function onChanged;
 
   @override
   State<TimePickerWidget> createState() => _TimePickerWidgetState();
@@ -22,6 +26,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       final DateTime now = DateTime.now();
       final selectedTime = DateTime(
           now.year, now.month, now.day, pickedTime.hour, pickedTime.minute);
+      widget.onChanged(selectedTime);
 
       setState(() {
         final String formatedTime = DateFormat.jm().format(selectedTime);

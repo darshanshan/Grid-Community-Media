@@ -6,8 +6,6 @@ part 'get_user_state.dart';
 
 class GetUserBloc extends Bloc<GetUserEvent, GetUserState> {
   GetUserBloc() : super(GetUserInitial()) {
-    on<GetUserEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<GetUserEvent>((event, emit) {});
   }
 }

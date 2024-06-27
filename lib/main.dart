@@ -7,7 +7,8 @@ import 'package:grid/core/utils/themes/dark_theme.dart';
 import 'package:grid/core/firebase/firebase_options.dart';
 import 'package:grid/core/utils/themes/light_theme.dart';
 import 'package:grid/features/authentication/bloc/auth_bloc.dart';
-import 'package:grid/features/authentication/presentation/login_screen/login.dart';
+import 'package:grid/features/create_posts/create_event/bloc/create_event_bloc.dart';
+
 import 'package:grid/features/home/bloc/home_bloc.dart';
 import 'package:grid/features/create_posts/common_post/bloc/common_post_bloc.dart';
 
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CommonPostBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CreateEventBloc(),
         ),
       ],
       child: MaterialApp(

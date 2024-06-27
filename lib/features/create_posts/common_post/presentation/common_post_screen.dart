@@ -182,7 +182,7 @@ class _CommonPostState extends State<CommonPost> {
                 ),
                 const Gap(20),
 
-                // Title
+                // Title-----------------------------------------------
 
                 const HeadLineText(
                   labelText: 'Title',
@@ -199,7 +199,7 @@ class _CommonPostState extends State<CommonPost> {
                 ),
                 const Gap(20),
 
-                // Description
+                // Description----------------------------------
 
                 const HeadLineText(labelText: 'Description'),
                 const Gap(10),
@@ -216,7 +216,7 @@ class _CommonPostState extends State<CommonPost> {
                 ),
                 const Gap(20),
 
-                // Image
+                // Image---------------------------------------------------
                 if (!_isVideo)
                   SizedBox(
                     child: Column(
@@ -338,7 +338,7 @@ class _CommonPostState extends State<CommonPost> {
                     ),
                   ),
 
-                // Video
+                // Video-------------------------------------------
                 if (_isVideo)
                   SizedBox(
                     child: Column(

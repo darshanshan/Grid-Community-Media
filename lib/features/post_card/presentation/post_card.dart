@@ -6,8 +6,11 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grid/core/widgets/button/post_action_button.dart';
 import 'package:grid/domain/get_user_services.dart';
+import 'package:grid/features/post_card/presentation/widgets/announcement_image.dart';
+import 'package:grid/features/post_card/presentation/widgets/collage_image_widget.dart';
 
 import 'package:grid/features/post_card/presentation/widgets/post_catagory_card.dart';
+import 'package:grid/features/post_card/presentation/widgets/post_video.dart';
 import 'package:grid/features/post_card/presentation/widgets/tag_card.dart';
 import 'package:grid/model/post_model.dart';
 
@@ -20,7 +23,6 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     //Post Document
     final doc = PostModel.fromMap(postDocument.data() as Map<String, dynamic>);
-    //print(doc.postTitle);
 
     //ThemeData
     final TextStyle? displaySmall = Theme.of(context).textTheme.displaySmall;
@@ -51,6 +53,8 @@ class PostCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //Post Type Section
+
                     if ((doc.postType != 'Common Post') &&
                         (doc.postType != 'Text Post'))
                       Padding(
@@ -84,11 +88,17 @@ class PostCard extends StatelessWidget {
                           ],
                         ),
                       ),
+
+                    //Post Announcement Date -------------------
+
                     if (doc.postType == 'Announcement')
                       const Padding(
                         padding: EdgeInsets.only(bottom: 16),
                         child: TagCard(tagLabel: '8/9/2020'),
                       ),
+
+                    // Post User Section------------------
+
                     FutureBuilder<DocumentSnapshot>(
                       future: GetUser().getUserDoc(userID: doc.postUserID),
                       builder: (context, userSnapshot) {
@@ -154,11 +164,17 @@ class PostCard extends StatelessWidget {
                       },
                     ),
                     const Gap(16),
+
+                    // Post Title----------------------------------
+
                     Text(
                       doc.postTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const Gap(10),
+
+                    // Post Description----------------------------------
+
                     Text(
                       doc.postDescription,
                       style: Theme.of(context).textTheme.labelMedium,
@@ -167,81 +183,126 @@ class PostCard extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Announcement Image ----------------------------------------
+
+            if ((doc.postType == 'Announcement') &&
+                (doc.announcementImage.isNotEmpty))
+              AnnouncementImage(imageurl: doc.announcementImage),
+
+            // Post Video -----------------------------------------------
+
+            if ((doc.postType == 'Common Post') &&
+                (doc.commonPostType == 'video') &&
+                (doc.videoUrl.isNotEmpty))
+              PostVideoPlayer(videoUrl: doc.videoUrl),
+
+            if ((doc.postType == 'Common Post') &&
+                (doc.commonPostType == 'image') &&
+                (doc.imageUrls.isNotEmpty))
+              PostImageWidget(imageList: doc.imageUrls),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Theme.of(context).colorScheme.background),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Link : ',
-                            style: Theme.of(context).textTheme.displayMedium,
-                          ),
-                          Text(
-                            'https://www.google.com/',
-                            style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                fontSize: 12,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Gap(16),
-                    const Wrap(
-                      runSpacing: 10,
-                      spacing: 10,
-                      children: [
-                        TagCard(
-                          tagLabel: 'Tag No.1',
-                        ),
-                        TagCard(tagLabel: 'Again Card')
-                      ],
-                    ),
-                    const Gap(16),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(7),
+                    //Post Link-------------------------------------
+
+                    if (doc.link.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: colors.onPrimaryContainer,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Theme.of(context).colorScheme.background),
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              likeButton('👍'),
-                              const Gap(5),
-                              likeButton('💓'),
-                              const Gap(5),
-                              likeButton('🎉'),
+                              Text(
+                                'Link : ',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                              Text(
+                                'https://www.google.com/',
+                                style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        const Gap(10),
-                        Text(
-                          '1.2k Likes',
-                          style: displaySmall,
+                      ),
+
+                    // Post Tags-----------------------------------
+                    if (doc.tags.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Wrap(
+                          runSpacing: 10,
+                          spacing: 10,
+                          children: doc.tags
+                              .map((e) => TagCard(tagLabel: e))
+                              .toList(),
                         ),
+                      ),
+
+                    // Total Likes and Comments------------------------
+
+                    Row(
+                      children: [
+                        if (doc.allLikes.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(7),
+                                  decoration: BoxDecoration(
+                                    color: colors.onPrimaryContainer,
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      likeButton('👍'),
+                                      const Gap(5),
+                                      likeButton('💓'),
+                                      const Gap(5),
+                                      likeButton('🎉'),
+                                    ],
+                                  ),
+                                ),
+                                const Gap(10),
+                                Text(
+                                  '1.2k Likes',
+                                  style: displaySmall,
+                                ),
+                              ],
+                            ),
+                          ),
                         const Spacer(),
-                        Text(
-                          '35 Comments',
-                          style: displaySmall,
-                        ),
+                        if (doc.totalComments != 0)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: Text(
+                              '35 Comments',
+                              style: displaySmall,
+                            ),
+                          ),
                       ],
                     ),
-                    const Gap(16),
+
+                    // Like and Comment Section------------------------
+
                     Row(
                       children: [
                         Expanded(
@@ -271,6 +332,9 @@ class PostCard extends StatelessWidget {
                       ],
                     ),
                     const Gap(16),
+
+                    //Comment TextBox Section--------------------------
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

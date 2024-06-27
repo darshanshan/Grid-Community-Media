@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:grid/core/widgets/appBar/primary_app_bar.dart';
 import 'package:grid/core/widgets/drawer/drawer.dart';
 import 'package:grid/features/create_posts/common_post/presentation/common_post_screen.dart';
-import 'package:grid/features/create_posts/create_event/create_event.dart';
+import 'package:grid/features/create_posts/create_event/presentation/create_event.dart';
 import 'package:grid/features/create_posts/post_layout/post_layout_screen.dart';
 import 'package:grid/features/create_posts/text_post/presentation/text_post_screen.dart';
 

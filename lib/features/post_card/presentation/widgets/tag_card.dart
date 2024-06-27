@@ -12,7 +12,7 @@ class TagCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
-      child: Text('8/9/2020', style: Theme.of(context).textTheme.displaySmall),
+      child: Text(tagLabel, style: Theme.of(context).textTheme.displaySmall),
     );
   }
 }
